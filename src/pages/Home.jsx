@@ -1,17 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Field, Form, Formik } from 'formik';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 
 import ProductItem from '../components/ProductItem';
 import Navbar from '../components/Navbar';
+import { updateLoginUser } from '../redux/userSlice';
 
 function Home() {
   const { quantity } = useSelector(state => state.cart);
   const { loading, error, products } = useSelector(state => state.products);
+  const { user } = useSelector(state => state.user);
+  const dispatch = useDispatch();
 
   const [minPrice, setMinPrice] = useState();
   const [maxPrice, setMaxPrice] = useState();
+
+  const navigate = useNavigate();
 
   const filterProducts = () => {
     let filtered = [];
@@ -24,6 +29,16 @@ function Home() {
     });
     return filtered;
   };
+
+  useEffect(() => {
+    dispatch(updateLoginUser());
+  }, []);
+
+  useEffect(() => {
+    // check if the user is logged in
+    // if not navigate to login page
+    if (Object.keys(user).length === 0) navigate('/login');
+  }, [user]);
 
   return (
     <>

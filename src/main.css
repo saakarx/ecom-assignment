@@ -35,6 +35,21 @@ nav a {
   background-color: #c492b192;
   font-size: 1.5rem;
 }
+.logout-btn {
+  color: #c492b1;
+  text-decoration: none;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.6rem;
+  border: 1px solid #c492b1;
+  border-radius: 4px;
+  background-color: transparent;
+  font-size: 1.5rem;
+  font-weight: 500;
+  cursor: pointer;
+}
 
 .container {
   padding: 4rem 1.6rem;
@@ -206,4 +221,9 @@ nav a {
   font-weight: 600;
   font-size: 1.4rem;
   color: currentColor;
+}
+.error {
+  color: #c492b1;
+  font-weight: 600;
+  margin-bottom: 1rem;
 }

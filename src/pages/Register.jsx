@@ -1,23 +1,57 @@
+import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
 
-import { createUser } from '../utils/firebase';
+import { createUser, searchUser } from '../utils/firebase';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
 function Register() {
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   const hashPassword = async password => {
     return await bcrypt.hash(password, 10);
   };
 
+  const handleSubmit = async values => {
+    try {
+      const user = await searchUser(values.email);
+      if (user) {
+        // clear the fields
+        values.name = '';
+        values.email = '';
+        values.password = '';
+        values.confirmPassword = '';
+        throw new Error('User already exists');
+      }
+
+      const hashedPass = await hashPassword(values.password);
+      const newUser = {
+        name: values.name,
+        email: values.email,
+        password: hashedPass
+      };
+      createUser(newUser);
+      // clear the fields
+      values.name = '';
+      values.email = '';
+      values.password = '';
+      values.confirmPassword = '';
+
+      navigate('/login');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
     <>
       <Navbar />
       <Header heading="Register" />
+      {error && <p className="error">{error}</p>}
       <Formik
         initialValues={{
           name: '',
@@ -35,22 +69,7 @@ function Register() {
             .oneOf([Yup.ref('password'), null], 'Passwords must match')
             .required('Required')
         })}
-        onSubmit={async values => {
-          const hashedPass = await hashPassword(values.password);
-          const user = {
-            name: values.name,
-            email: values.email,
-            password: hashedPass
-          };
-          createUser(user);
-          // clear the fields
-          values.name = '';
-          values.email = '';
-          values.password = '';
-          values.confirmPassword = '';
-
-          navigate('/login');
-        }}
+        onSubmit={handleSubmit}
       >
         <Form>
           <div className="input-control">
