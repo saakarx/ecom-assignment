@@ -1,5 +1,13 @@
 # E-Commerce Assignment
 
+## Routes
+
+- [/](https://ecom-assignment-eight.vercel.app/) - Home Page
+- [/login](https://ecom-assignment-eight.vercel.app/login) - Login Page
+- [/register](https://ecom-assignment-eight.vercel.app/register) - Register Page
+- [/admin](https://ecom-assignment-eight.vercel.app/admin) - Admin Page
+- [/cart](https://ecom-assignment-eight.vercel.app/cart) - Cart Page
+
 ## Task
 
 - [x] Create a simple ecommerce web application using react.js in which show all the products
