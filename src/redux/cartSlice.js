@@ -35,6 +35,7 @@ export const cartSlice = createSlice({
       const itemIndex = state.items.findIndex(
         item => item.id === action.payload
       );
+      if (itemIndex < 0) return;
       const quantity = state.items[itemIndex].quantity;
       state.quantity = state.quantity - quantity;
       state.items.splice(itemIndex, 1);

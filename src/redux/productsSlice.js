@@ -40,6 +40,12 @@ const productsSlice = createSlice({
         item => item.id === action.payload
       );
       state.products[itemIndex].quantity = 0;
+    },
+    removeFromList(state, action) {
+      const itemIndex = state.products.findIndex(
+        item => item.id === action.payload
+      );
+      state.products.splice(itemIndex, 1);
     }
   },
   extraReducers(builder) {
@@ -61,6 +67,7 @@ const { actions, reducer } = productsSlice;
 export const {
   incrementQuantityProduct,
   decrementQuantityProduct,
-  removeItemProduct
+  removeItemProduct,
+  removeFromList
 } = actions;
 export default reducer;
