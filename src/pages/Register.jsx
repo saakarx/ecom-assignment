@@ -3,8 +3,9 @@ import * as Yup from 'yup';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
 
-import Header from '../components/Header';
 import { createUser } from '../utils/firebase';
+import Header from '../components/Header';
+import Navbar from '../components/Navbar';
 
 function Register() {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ function Register() {
 
   return (
     <>
+      <Navbar />
       <Header heading="Register" />
       <Formik
         initialValues={{

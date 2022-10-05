@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 
 import { getUser } from '../utils/firebase';
 import Header from '../components/Header';
+import Navbar from '../components/Navbar';
 
 function Login() {
   const fetchUser = () => {
@@ -11,6 +12,7 @@ function Login() {
 
   return (
     <>
+      <Navbar />
       <Header heading="Login" />
       <Formik
         initialValues={{ email: '', password: '' }}

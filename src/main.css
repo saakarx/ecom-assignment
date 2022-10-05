@@ -15,6 +15,27 @@ body {
   background-color: #fff;
   color: #424651;
 }
+/* NAVBAR */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-bottom: 1.2rem;
+}
+nav a {
+  color: currentColor;
+  text-decoration: none;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.6rem;
+  border: 1px solid #c492b1;
+  border-radius: 4px;
+  background-color: #c492b192;
+  font-size: 1.5rem;
+}
+
 .container {
   padding: 4rem 1.6rem;
   max-width: 111.1rem;

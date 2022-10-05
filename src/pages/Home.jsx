@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import ProductItem from '../components/ProductItem';
+import Navbar from '../components/Navbar';
 
 function Home() {
   const { quantity } = useSelector(state => state.cart);
@@ -26,6 +27,7 @@ function Home() {
 
   return (
     <>
+      <Navbar />
       <header
         style={{
           display: 'flex',
