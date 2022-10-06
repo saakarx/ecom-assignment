@@ -13,7 +13,6 @@ const userSlice = createSlice({
       if (userInStorage) state.user = JSON.parse(userInStorage);
     },
     loginUser(state, action) {
-      console.log(action.payload);
       state.user = action.payload;
       localStorage.setItem('user', JSON.stringify(action.payload));
     },

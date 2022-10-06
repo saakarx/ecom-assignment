@@ -23,24 +23,6 @@ const productsSlice = createSlice({
   name: 'Products',
   initialState,
   reducers: {
-    incrementQuantityProduct(state, action) {
-      const itemToIncrement = state.products.findIndex(
-        item => item.id === action.payload
-      );
-      state.products[itemToIncrement].quantity += 1;
-    },
-    decrementQuantityProduct(state, action) {
-      const itemToIncrement = state.products.findIndex(
-        item => item.id === action.payload
-      );
-      state.products[itemToIncrement].quantity -= 1;
-    },
-    removeItemProduct(state, action) {
-      const itemIndex = state.products.findIndex(
-        item => item.id === action.payload
-      );
-      state.products[itemIndex].quantity = 0;
-    },
     removeFromList(state, action) {
       const itemIndex = state.products.findIndex(
         item => item.id === action.payload
@@ -64,10 +46,5 @@ const productsSlice = createSlice({
 });
 
 const { actions, reducer } = productsSlice;
-export const {
-  incrementQuantityProduct,
-  decrementQuantityProduct,
-  removeItemProduct,
-  removeFromList
-} = actions;
+export const { removeFromList } = actions;
 export default reducer;

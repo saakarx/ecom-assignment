@@ -1,10 +1,8 @@
 import { useDispatch } from 'react-redux';
 
-import { addToCart, incrementQuantity } from '../redux/cartSlice';
-import { incrementQuantityProduct } from '../redux/productsSlice';
-import QuantityButtons from './QuantityButtons';
+import { addToCart } from '../redux/cartSlice';
 
-function ProductItem({ product, id, image, title, price, quantity }) {
+function ProductItem({ product, image, title, price }) {
   const dispatch = useDispatch();
 
   return (
@@ -13,19 +11,14 @@ function ProductItem({ product, id, image, title, price, quantity }) {
       <div className="product-details">
         <h4 style={{ flex: 1 }}>{title}</h4>
         <h2>${price}</h2>
-        {quantity < 1 ? (
-          <button
-            className="add-to-cart"
-            onClick={() => {
-              dispatch(incrementQuantityProduct(id));
-              dispatch(addToCart(product));
-            }}
-          >
-            Add to cart
-          </button>
-        ) : (
-          <QuantityButtons id={id} quantity={quantity} />
-        )}
+        <button
+          className="add-to-cart"
+          onClick={() => {
+            dispatch(addToCart(product));
+          }}
+        >
+          Add to cart
+        </button>
       </div>
     </article>
   );

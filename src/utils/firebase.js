@@ -5,7 +5,9 @@ import {
   addDoc,
   where,
   query,
-  getDocs
+  getDocs,
+  doc,
+  updateDoc
 } from 'firebase/firestore';
 import bcrypt from 'bcryptjs';
 
@@ -23,47 +25,60 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const usersRef = collection(db, 'users');
+const cartRef = collection(db, 'cart');
 
-export const addData = async () => {
-  try {
-    const docRef = await addDoc(usersRef, {
-      name: 'Saakar Gogia',
-      email: 'saakarg615@gmail.com',
-      age: 20
-    });
-    console.log('Document Written: ', docRef);
-  } catch (err) {
-    console.error('Error encountered: ', err);
-  }
+export const userExists = async email => {
+  const q = query(usersRef, where('email', '==', email));
+  const userRef = await getDocs(q);
+
+  if (userRef.docs.length > 0) {
+    const user = {
+      id: userRef.docs[0].id,
+      ...userRef.docs[0].data()
+    };
+    return user;
+  } else return false;
 };
-
 export const createUser = async ({ name, email, password }) => {
   const userRef = await addDoc(usersRef, {
     name,
     email,
     password
   });
+  createCart(userRef);
   return;
 };
-
-export const searchUser = async email => {
-  try {
-    const q = query(usersRef, where('email', '==', email));
-    const userRef = await getDocs(q);
-
-    if (userRef.docs.length > 0) return userRef.docs[0].data();
-    else return false;
-  } catch (err) {
-    console.error(err);
-  }
-};
-
 export const login = async (email, password) => {
-  const user = await searchUser(email);
+  const user = await userExists(email);
   // if the user does not exist throw an error
   if (!user) throw new Error('User does not exist!');
   // check if the password match with the hash
   const passMatch = await bcrypt.compare(password, user.password);
-  if (passMatch && user) return { email: user.email, name: user.name };
+  if (passMatch && user)
+    return { email: user.email, name: user.name, id: user.id };
   else throw new Error('Invalid credentials');
+};
+const createCart = async userRef => {
+  await addDoc(cartRef, {
+    userId: userRef.id,
+    quantity: 0,
+    items: []
+  });
+};
+export const searchCart = async userId => {
+  const q = query(cartRef, where('userId', '==', userId));
+  const cartDoc = await getDocs(q);
+
+  const cart = {
+    id: cartDoc.docs[0].id,
+    ...cartDoc.docs[0].data()
+  };
+  return cart;
+};
+export const updateCartItem = async (cartId, data) => {
+  const cartItem = doc(cartRef, cartId);
+  await updateDoc(cartItem, {
+    quantity: data.quantity,
+    items: data.items
+  });
 };

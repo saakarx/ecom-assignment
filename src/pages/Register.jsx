@@ -4,7 +4,7 @@ import * as Yup from 'yup';
 import bcrypt from 'bcryptjs';
 import { useNavigate } from 'react-router-dom';
 
-import { createUser, searchUser } from '../utils/firebase';
+import { createUser, userExists } from '../utils/firebase';
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
@@ -18,7 +18,7 @@ function Register() {
 
   const handleSubmit = async values => {
     try {
-      const user = await searchUser(values.email);
+      const user = await userExists(values.email);
       if (user) {
         // clear the fields
         values.name = '';

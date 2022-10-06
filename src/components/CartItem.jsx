@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 
 import { removeItem } from '../redux/cartSlice';
-import { removeItemProduct } from '../redux/productsSlice';
 import QuantityButtons from './QuantityButtons';
 
 function CartItem({ id, image, title, price, quantity }) {
@@ -18,7 +17,6 @@ function CartItem({ id, image, title, price, quantity }) {
         <QuantityButtons id={id} quantity={quantity} />
         <button
           onClick={() => {
-            dispatch(removeItemProduct(id));
             dispatch(removeItem(id));
           }}
           className="remove-item-btn"

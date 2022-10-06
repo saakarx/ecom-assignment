@@ -1,17 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Field, Form, Formik } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
 import ProductItem from '../components/ProductItem';
 import Navbar from '../components/Navbar';
-import { updateLoginUser } from '../redux/userSlice';
+import { updateCartItem } from '../utils/firebase';
 
 function Home() {
-  const { quantity } = useSelector(state => state.cart);
+  const { quantity, items, cartId } = useSelector(state => state.cart);
   const { loading, error, products } = useSelector(state => state.products);
   const { user } = useSelector(state => state.user);
-  const dispatch = useDispatch();
 
   const [minPrice, setMinPrice] = useState();
   const [maxPrice, setMaxPrice] = useState();
@@ -31,14 +30,15 @@ function Home() {
   };
 
   useEffect(() => {
-    dispatch(updateLoginUser());
-  }, []);
-
-  useEffect(() => {
     // check if the user is logged in
     // if not navigate to login page
     if (Object.keys(user).length === 0) navigate('/login');
   }, [user]);
+
+  useMemo(() => {
+    if (!cartId) return;
+    updateCartItem(cartId, { quantity, items });
+  }, [items, cartId]);
 
   return (
     <>
